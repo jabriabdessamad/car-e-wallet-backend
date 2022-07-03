@@ -3,7 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const dbConfig = require("./config/db.config");
 
-const Port = process.env.Port || 5000;
+const Port = process.env.PORT || 5000;
 
 mongoose.Promise = global.Promise;
 mongoose
