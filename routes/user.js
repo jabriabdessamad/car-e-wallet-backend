@@ -16,8 +16,8 @@ router.route("/:username").get(middleware.checkToken, (req, res) => {
   });
 });
 
-router.route("/checkemail").get((req, res) => {
-  User.findOne({ email: req.body.email }, (err, result) => {
+router.route("/checkemail/:email").get((req, res) => {
+  User.findOne({ email: req.params.email }, (err, result) => {
     if (err) return res.status(500).json({ msg: err });
     if (result !== null) {
       return res.json({
