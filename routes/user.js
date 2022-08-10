@@ -3,6 +3,7 @@ const User = require("../models/user.model");
 const config = require("../config/config");
 const jwt = require("jsonwebtoken");
 const middleware = require("../middleware");
+const e = require("express");
 
 const router = express.Router();
 
@@ -70,6 +71,33 @@ router.route("/register").post((req, res) => {
     .catch((err) => {
       res.status(403).json({ msg: err });
     });
+});
+
+router.route("/getData").get(middleware.checkToken, (req, res) => {
+  User.findOne({ username: req.decoded.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
+router.route("/updateData").patch(middleware.checkToken, (req, res) => {
+  User.findOneAndUpdate(
+    { username: req.decoded.username },
+    {
+      $set: {
+        username: req.body.username,
+        email: req.body.email,
+        phonenumber: req.body.phonenumber,
+      },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) return res.json({ err: err });
+      if (result == null) return res.json({ data: [] });
+      else return res.json({ data: result });
+    }
+  );
 });
 
 router.route("/update/:username").patch(middleware.checkToken, (req, res) => {
