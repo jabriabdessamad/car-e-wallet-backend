@@ -49,7 +49,7 @@ router.route("/login").post((req, res) => {
         msg: "success",
       });
     } else {
-      res.status(403).json("password incorrect");
+      res.status(403).json("password is incorrect");
     }
   });
 });
